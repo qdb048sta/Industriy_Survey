@@ -56,6 +56,15 @@ chemical manufacturing:3111-               3199 3181*need revision
 Plastic 3011- 3099
 Nonmetalic 3311-3399 
 primary 3411-3421
+frabricated 3511- 3599
+machineary 3611- 3699 
+Trasnportationmanufacturing 3811- 3899
+WoodPrdouction 2500-2599 
+food and beverage stores: 飲食和冷飲業
+Publishing 8311
+Finance_1_2_ 3 : note: 商業銀行及儲蓄業+典當業+保險業
+
+
 */
 
 //50 years
@@ -66,6 +75,9 @@ replace fishingm=0 if missing(fishingm)
 replace fishingf=0 if missing(fishingf)
 replace forestoryM=0 if missing(forestoryM)
 replace forestoryf=0 if missing(forestoryf)
+art entertainment 影劇業 台求娛樂服務業 其他娛樂服務業 
+accommodation  (8231) 旅馆业
+
 save risky_jobs_50y,replace
 */
 /*
