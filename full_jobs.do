@@ -118,6 +118,7 @@ gen chemicalmanufacturingf=chemicalmanufacturingt*(18932/58805)
 rename plasticandrubberm plasticandrubbert
 drop plasticandrubberf
 gen plasticandrubbberm=plasticandrubber*(5401/9908)
+gen plasticandrubberf=plasticandrubber*(4507/9908)
 //
 
 //rename totalindustcensusm totalindust_employee
