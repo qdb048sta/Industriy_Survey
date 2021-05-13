@@ -52,8 +52,10 @@ Minging: (minging company/428)*46065
 minging company is recorded cities by cities, then divided by 428(total companies in Taiwan) it will get a ratio representing how large the minging companies in one city compared to Taiwan, then x total male minging employee
 Estimation:
 food manufacturing:(43y0201102131)
-chemical manufacturing:3111 3199 3181*need revision
-
+chemical manufacturing:3111-               3199 3181*need revision
+Plastic 3011- 3099
+Nonmetalic 3311-3399 
+primary 3411-3421
 */
 
 //50 years
