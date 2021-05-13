@@ -100,7 +100,25 @@ rename boattransportationm boat_amount
 rename boattransportationf boat_capacity
 rename warehousingm warehouse_amount
 rename warehousingf warehouse_capacity
+rename coalmining_M totalmining_M
+rename coalmining_F totalmining_F
+gen coalmining_M= totalmining_M*(66819/84814)
+gen coalminging_F= totalmining_F*(66819/84814)
 drop animalproduct*
+
+//
+//manufacturing
+rename foodmanufacturingm foodmanufacturingt
+drop foodmanufacturingf
+gen foodmanufacturingm=foodmanufacturingt*(72656/118535)
+gen foodmanufacturingf=foodmanufacutringt*(45879/118535)
+rename chemicalmanufacturingm chemicalmanufacturingt
+gen chemicalmanufacturingm=chemicalmanufacturingt*(39873/58805)
+gen chemicalmanufacturingf=chemicalmanufacturingt*(18932/58805)
+rename plasticandrubberm plasticandrubbert
+drop plasticandrubberf
+gen plasticandrubbberm=plasticandrubber*(5401/9908)
+//
 
 //rename totalindustcensusm totalindust_employee
 //drop totalindustcensusf
