@@ -119,6 +119,8 @@ rename plasticandrubberm plasticandrubbert
 drop plasticandrubberf
 gen plasticandrubbberm=plasticandrubber*(5401/9908)
 gen plasticandrubberf=plasticandrubber*(4507/9908)
+rename nonmetalicmineralm nonmetalicminearalt
+gen 
 //
 
 //rename totalindustcensusm totalindust_employee
