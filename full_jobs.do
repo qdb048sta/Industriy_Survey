@@ -5,6 +5,33 @@ import delimited "risky_jobs - 43y.csv", encoding("utf-8") clear
 drop if 縣市=="台北市區" | 縣市=="陽明山管理局"
 gen year=43
 rename mingingm minging_company
+rename plasticsandrubberproductsmanufac plasticsandrubbermanufacturing_m
+rename v25 plasticsandrubbermanufacturing_f
+rename nonmetallicmineralproductmanufac nonmetallicmineralm
+rename v27 nonmetallicmineralf
+rename fabricatedmetalproductmanufactur fabricatedmetalmanufacturingm
+rename v31 fabricatedmetalmanufacturingf
+rename transportationequipmentmanufactu transportationmanufacturingm
+rename v35 transportationmanufacturingf
+rename merchantwholesalersdurablegoods_ wholesalersdurablegoodsm
+rename v39 wholesalersdurablegoodsf
+rename merchantwholesalersnondurablegoo wholesalersnondurablegoodsm
+rename v41 wholesalersnondurablegoodsf
+rename buildingmaterialandgardenequipme buildingmaterialdealersm
+rename v45 buildingmaterialsdealerf
+rename transitandgroundpassengertranspo groundpassengerm
+rename v61 groundpassengerf
+rename servicesincidentaltotransportati transportationservicem
+rename v63 transportationservicef
+rename publishingindustriesexceptintern publishingm
+rename v69 publishingf
+rename professionalscientificandtechnic professionalm
+rename v77 professionalf
+rename automotiverepairandmaintenanceex automotiverepairm
+rename v87 automotiverepairf
+
+
+
 replace minging_company=0 if missing(minging_company)
 drop mingingf
 gen mingingm=round((minging_company/428)*46065) //46065 is the total amount of male minging workers
@@ -12,8 +39,8 @@ gen mingingf=round((minging_company/428)*9531) //9531 is the total amount of mal
 replace huntingm=0 if missing(huntingm)
 replace huntingf=0 if missing(huntingf)
 
-drop animalproduct*
-drop supportactivites
+drop animalproduct* oilandgasextraction* supportactivitiesformining* 
+drop supportactivitiesforagriculturea v11// v11 is supoort activities for agriculture
 gen total_employee_m= agriculturem+fishingm+forestorym+huntingm+mingingm+constructionm+cartransportationm+boattransportationm+transportationservicem+warehousingm+total_manufacturingm+utilitiesm+gasm+waterm+merchantm+otherm
 gen total_employee_f= agriculturef+fishingf+forestoryf+huntingf+mingingf+constructionf+cartransportationf+boattransportationf+transportationservicef+warehousingf+total_manufacturingf+utilitiesf+gasm+waterf+merchantf+otherf
 save risky_jobs_43y,replace
@@ -23,6 +50,9 @@ Note: Fishing Forestry Transportation are derived from Industrial Censusm, but t
 Estimation:
 Minging: (minging company/428)*46065
 minging company is recorded cities by cities, then divided by 428(total companies in Taiwan) it will get a ratio representing how large the minging companies in one city compared to Taiwan, then x total male minging employee
+Estimation:
+food manufacturing:(43y0201102131)
+chemical manufacturing:3111 3199 3181*need revision
 
 */
 
