@@ -3,47 +3,61 @@
 cd "D:\User_Data\Desktop\kan-2\industrial_census\"
 import delimited "empty_csv - 1954.csv", encoding("utf-8") clear
 drop if 縣市=="台北市區" | 縣市=="陽明山管理局"
+rename 縣市 county
 gen year=43
 rename coalmining_m minging_company
 rename plasticsandrubberproductsmanufac plasticsandrubbermanufacturing_m
 rename v25 plasticsandrubbermanufacturing_f
 rename nonmetallicmineralproductmanufac nonmetallicmineralm
 rename v27 nonmetallicmineralf
-rename fabricatedmetalproductmanufactur fabricatedmetalm
-rename v31 fabricatedmetalf
-rename transportationequipmentmanufactu transportationmanufacturingm
-rename v35 transportationmanufacturingf
-rename merchantwholesalersdurablegoods_ wholesalersdurablegoodsm
-rename v39 wholesalersdurablegoodsf
-rename merchantwholesalersnondurablegoo wholesalersnondurablegoodsm
-rename v41 wholesalersnondurablegoodsf
-rename buildingmaterialandgardenequipme buildingmaterialdealersm
-rename v45 buildingmaterialsdealerf
-rename transitandgroundpassengertranspo groundpassengerm
-rename v67 groundpassengerf
-rename servicesincidentaltotransportati transportationservicem
-rename v69 transportationservicef
-rename publishingindustriesexceptintern publishingm
-rename v75 publishingf
-rename professionalscientificandtechnic professionalm
-rename v85 professionalf
-rename automotiverepairandmaintenanceex automotiverepairm
-rename v101 automotiverepairf
+rename fabricatedmetalproductmanufactur fabricatedmetal_m
+rename v31 fabricatedmetal_f
+rename transportationequipmentmanufactu transportationmanufacturing_m
+rename v35 transportationmanufacturing_f
+rename merchantwholesalersdurablegoods_ wholesalersdurablegoods_m
+rename v39 wholesalersdurablegoods_f
+rename merchantwholesalersnondurablegoo wholesalersnondurablegoods_m
+rename v41 wholesalersnondurablegoods_f
+rename buildingmaterialandgardenequipme buildingmaterialdealers_m
+rename v45 buildingmaterialsdealer_f
+rename transitandgroundpassengertranspo groundpassenger_m
+rename v67 groundpassenger_f
+rename servicesincidentaltotransportati transportationservice_m
+rename v69 transportationservice_f
+rename publishingindustriesexceptintern publishing_m
+rename v75 publishing_f
+rename professionalscientificandtechnic professional_m
+rename v85 professional_f
+rename managementadministrativeandwaste managementadmin_m
+rename v87 management_admin_f
+rename artsentertainmentandrecreation_m entertainment_m_1
+rename artsentertainmentandrecreation_f entertainment_f_1
+rename v94 entertainment_m_2
+rename v95 entertainment_f_2
+rename v96 entertainment_m_3
+rename v97 entertainment_m_3 
+rename automotiverepairandmaintenanceex automotiverepair_m
+rename v101 automotiverepair_f
+rename religiousgrantmakingcivicprofess religious_m
+rename v105 religious_f
 
 
 
 replace minging_company=0 if missing(minging_company)
 drop coalmining_f
-gen coalminging_m=round((minging_company/428)*31276) //31276 is the total amount of male minging workers
-gen coalminging_f=round((minging_company/428)*4841) //4841 is the total amount of male minging workers
+gen coalmining_m=round((minging_company/428)*31276) //31276 is the total amount of male minging workers
+gen coalmining_f=round((minging_company/428)*4841) //4841 is the total amount of male minging workers
 replace animalproduction_m=0 if missing(animalproduction_m)
 replace animalproduction_f=0 if missing(animalproduction_f)
 
 drop animalproduct* oilandgasextraction* supportactivitiesformining* 
 drop supportactivitiesforagriculturea v11 // v11 is supoort activities for cropproduction
-gen total_employee_m= cropproduction_m+fishinghuntingandtrapping_m+logging_m+animalproduction_m+coalminging_m+constructionm+cartransportationm+boattransportationm+transportationservicem+warehousingm+total_manufacturingm+utilitiesm+gasm+waterm+merchantm+otherm
-gen total_employee_f= croproduction_f+fishinghuntingandtrapping_f+logging_f+animalproduction_f+coalminging_f+constructionf+cartransportationf+boattransportationf+transportationservicef+warehousingf+total_manufacturingf+utilitiesf+gasm+waterf+merchantf+otherf
-save risky_jobs_43y,replace
+//gen total_employee_m= cropproduction_m+fishinghuntingandtrapping_m+logging_m+coalminging_m+construction_m+cartransportationm+boattransportationm+transportationservicem+warehousingm+total_manufacturingm+utilitiesm+gasm+waterm+merchantm+otherm
+//gen total_employee_f= croproduction_f+fishinghuntingandtrapping_f+logging_f+constructionf+cartransportation_f+boattransportationf+transportationservicef+warehousingf+total_manufacturingf+utilitiesf+gasm+waterf+merchantf+otherf
+foreach v of varlist county-coalmining_f{
+	replace `v'=0 if missing(`v')
+}
+save full_jobs_43y,replace
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 /*reference:
 cropproduction: REPORT OF THE 1956 SAMPLE SAMPLE CENSUS OF cropproduction
@@ -182,7 +196,7 @@ gen warehousingf=round((warehouse_amount/1119179)*(168)) // total female employe
 gen total_employee_m= cropproductionm+fishinghuntingandtrappingm+loggingm+huntingm+mingingm+constructionm+cartransportationm+boattransportationm+transportationservicem+warehousingm+total_manufacturingm+utilitiesm+merchantm+otherm
 gen total_employee_f= cropproductionf+fishinghuntingandtrappingf+loggingf+huntingf+mingingf+constructionf+cartransportationf+boattransportationf+transportationservicef+warehousingf+total_manufacturingf+utilitiesf+merchantf+otherf
 
-save risky_jobs_55y,replace
+save full_jobs_55y,replace
 /*
 Estimation: 
 
