@@ -4,7 +4,7 @@ cd "D:\User_Data\Desktop\kan-2\industrial_census\"
 import delimited "empty_csv - 1954.csv", encoding("utf-8") clear
 drop if 縣市=="台北市區" | 縣市=="陽明山管理局"
 gen year=43
-rename mingingm minging_company
+rename coalmining_m minging_company
 rename plasticsandrubberproductsmanufac plasticsandrubbermanufacturing_m
 rename v25 plasticsandrubbermanufacturing_f
 rename nonmetallicmineralproductmanufac nonmetallicmineralm
@@ -20,33 +20,34 @@ rename v41 wholesalersnondurablegoodsf
 rename buildingmaterialandgardenequipme buildingmaterialdealersm
 rename v45 buildingmaterialsdealerf
 rename transitandgroundpassengertranspo groundpassengerm
-rename v61 groundpassengerf
+rename v67 groundpassengerf
 rename servicesincidentaltotransportati transportationservicem
-rename v63 transportationservicef
+rename v69 transportationservicef
 rename publishingindustriesexceptintern publishingm
-rename v69 publishingf
+rename v75 publishingf
 rename professionalscientificandtechnic professionalm
-rename v77 professionalf
+rename v85 professionalf
 rename automotiverepairandmaintenanceex automotiverepairm
-rename v87 automotiverepairf
+rename v101 automotiverepairf
 
 
 
 replace minging_company=0 if missing(minging_company)
-drop mingingf
-gen mingingm=round((minging_company/428)*46065) //46065 is the total amount of male minging workers
-gen mingingf=round((minging_company/428)*9531) //9531 is the total amount of male minging workers
-replace huntingm=0 if missing(huntingm)
-replace huntingf=0 if missing(huntingf)
+drop coalmining_f
+gen coalminging_m=round((minging_company/428)*31276) //31276 is the total amount of male minging workers
+gen coalminging_f=round((minging_company/428)*4841) //4841 is the total amount of male minging workers
+replace animalproduction_m=0 if missing(animalproduction_m)
+replace animalproduction_f=0 if missing(animalproduction_f)
 
 drop animalproduct* oilandgasextraction* supportactivitiesformining* 
-drop supportactivitiesforagriculturea v11// v11 is supoort activities for agriculture
-gen total_employee_m= agriculturem+fishingm+forestorym+huntingm+mingingm+constructionm+cartransportationm+boattransportationm+transportationservicem+warehousingm+total_manufacturingm+utilitiesm+gasm+waterm+merchantm+otherm
-gen total_employee_f= agriculturef+fishingf+forestoryf+huntingf+mingingf+constructionf+cartransportationf+boattransportationf+transportationservicef+warehousingf+total_manufacturingf+utilitiesf+gasm+waterf+merchantf+otherf
+drop supportactivitiesforagriculturea v11 // v11 is supoort activities for cropproduction
+gen total_employee_m= cropproduction_m+fishinghuntingandtrapping_m+logging_m+animalproduction_m+coalminging_m+constructionm+cartransportationm+boattransportationm+transportationservicem+warehousingm+total_manufacturingm+utilitiesm+gasm+waterm+merchantm+otherm
+gen total_employee_f= croproduction_f+fishinghuntingandtrapping_f+logging_f+animalproduction_f+coalminging_f+constructionf+cartransportationf+boattransportationf+transportationservicef+warehousingf+total_manufacturingf+utilitiesf+gasm+waterf+merchantf+otherf
 save risky_jobs_43y,replace
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 /*reference:
-Agriculture: REPORT OF THE 1956 SAMPLE SAMPLE CENSUS OF AGRICULTURE
-Note: Fishing Forestry Transportation are derived from Industrial Censusm, but the report already declared that the numbers could be inaccurate
+cropproduction: REPORT OF THE 1956 SAMPLE SAMPLE CENSUS OF cropproduction
+Note: fishinghuntingandtrapping Forestry Transportation are derived from Industrial Censusm, but the report already declared that the numbers could be inaccurate
 Estimation:
 Minging: (minging company/428)*46065
 minging company is recorded cities by cities, then divided by 428(total companies in Taiwan) it will get a ratio representing how large the minging companies in one city compared to Taiwan, then x total male minging employee
@@ -71,10 +72,10 @@ Finance_1_2_ 3 : note: 商業銀行及儲蓄業+典當業+保險業
 /*import delimited "risky_jobs - 50y.csv", encoding("utf-8") clear
 replace huntingm=0 if missing(huntingm)
 replace huntingf=0 if missing(huntingf)
-replace fishingm=0 if missing(fishingm)
-replace fishingf=0 if missing(fishingf)
-replace forestoryM=0 if missing(forestoryM)
-replace forestoryf=0 if missing(forestoryf)
+replace fishinghuntingandtrappingm=0 if missing(fishinghuntingandtrappingm)
+replace fishinghuntingandtrappingf=0 if missing(fishinghuntingandtrappingf)
+replace loggingM=0 if missing(loggingM)
+replace loggingf=0 if missing(loggingf)
 art entertainment 影劇業 台求娛樂服務業 其他娛樂服務業 
 accommodation  (8231) 旅馆业
 
@@ -82,11 +83,11 @@ save risky_jobs_50y,replace
 */
 /*
 Reference:
-Agriculture resoure 國家圖書館: https://twinfo.ncl.edu.tw/sgp/hypage.cgi?hyqstr=aiknpggfcecflgkibfefihgeqiejgheidjehldqkehihckdhghjiqhphkkeihdpjjidhifhiggqjkhheogheeedgcegecghefebgdedeggkejeifhhhifjfgshkjfeqedgddjieiqhjhnjchkeogcdjidiqhjhnjchkeoikdjhigodjhhkdhshoiqhrhqgoeeebfhiegqjmhiikgopljiolpkjcnepkknlcplmpodpjlgnopjkknppjkqngpilbocpikclldjiciqhjhkjghphfgoihhkfhiegqkfilifgceqdhkcgsifkjihedgodjiciqihijkfegeofhiegqjhhmhgjnhhecgodjiciqhjhkjghphfgdeqdhkcgshhjkhihnjfegeofhhihcjehlibjchkhggoeeebfhighqkdihgqjdimeokbhhdhkehsidkfgshqkdhhhgkdeqeb
+cropproduction resoure 國家圖書館: https://twinfo.ncl.edu.tw/sgp/hypage.cgi?hyqstr=aiknpggfcecflgkibfefihgeqiejgheidjehldqkehihckdhghjiqhphkkeihdpjjidhifhiggqjkhheogheeedgcegecghefebgdedeggkejeifhhhifjfgshkjfeqedgddjieiqhjhnjchkeogcdjidiqhjhnjchkeoikdjhigodjhhkdhshoiqhrhqgoeeebfhiegqjmhiikgopljiolpkjcnepkknlcplmpodpjlgnopjkknppjkqngpilbocpikclldjiciqhjhkjghphfgoihhkfhiegqkfilifgceqdhkcgsifkjihedgodjiciqihijkfegeofhiegqjhhmhgjnhhecgodjiciqhjhkjghphfgdeqdhkcgshhjkhihnjfegeofhhihcjehlibjchkhggoeeebfhighqkdihgqjdimeokbhhdhkehsidkfgshqkdhhhgkdeqeb
 
 Note:
-Fishing: no 50y data
-Forestory : no 50y data
+fishinghuntingandtrapping: no 50y data
+logging : no 50y data
 Hunting: no 50y data
 */
 
@@ -146,14 +147,14 @@ gen woodproductionf=woodproductiont*(8729/32725)
 //rename totalindustcensusm totalindust_employee
 //drop totalindustcensusf
 
-replace agriculturem=agriculturem*20 // 5% sample x20times 
-replace agriculturef=agriculturef*20
+replace cropproductionm=cropproductionm*20 // 5% sample x20times 
+replace cropproductionf=cropproductionf*20
 replace huntingm=0 if missing(huntingm)
 replace huntingf=0 if missing(huntingf)
 replace mingingm=0 if missing(mingingm)
 replace mingingf=0 if missing(mingingf)
-replace forestorym=0 if missing(forestorym)
-replace forestoryf=0 if missing(forestoryf)
+replace loggingm=0 if missing(loggingm)
+replace loggingf=0 if missing(loggingf)
 replace railtransportationm=0 if missing(railtransportationm)
 replace railtransportationf=0 if missing(railtransportationf)
 replace car_amount=0 if missing(car_amount)
@@ -178,8 +179,8 @@ gen boattransportationf=round((boat_capacity/1365634)*(243)) //total male employ
 gen warehousingm=round((warehouse_amount/1119179)*(1292))
 gen warehousingf=round((warehouse_amount/1119179)*(168)) // total female employee in warehouse distributed by warehouse space of city
 
-gen total_employee_m= agriculturem+fishingm+forestorym+huntingm+mingingm+constructionm+cartransportationm+boattransportationm+transportationservicem+warehousingm+total_manufacturingm+utilitiesm+merchantm+otherm
-gen total_employee_f= agriculturef+fishingf+forestoryf+huntingf+mingingf+constructionf+cartransportationf+boattransportationf+transportationservicef+warehousingf+total_manufacturingf+utilitiesf+merchantf+otherf
+gen total_employee_m= cropproductionm+fishinghuntingandtrappingm+loggingm+huntingm+mingingm+constructionm+cartransportationm+boattransportationm+transportationservicem+warehousingm+total_manufacturingm+utilitiesm+merchantm+otherm
+gen total_employee_f= cropproductionf+fishinghuntingandtrappingf+loggingf+huntingf+mingingf+constructionf+cartransportationf+boattransportationf+transportationservicef+warehousingf+total_manufacturingf+utilitiesf+merchantf+otherf
 
 save risky_jobs_55y,replace
 /*
@@ -191,33 +192,33 @@ cartransportation=total bus+truck capacity  in one city/ bus+truck capacity of w
 
 /*
 Reference:
-Agriculture: REPORT ON THE 1966 CENSUS OF AGRICULTURE TAIWAN, REPUBLIC OF CHINA
-Fishing resource:  國家圖書館 https://twinfo.ncl.edu.tw/sgp/hypage.cgi?HYPAGE=search/detail.hpg&dtd_id=22&g=&sysid=00001113&sflag=1 page 246
+cropproduction: REPORT ON THE 1966 CENSUS OF cropproduction TAIWAN, REPUBLIC OF CHINA
+fishinghuntingandtrapping resource:  國家圖書館 https://twinfo.ncl.edu.tw/sgp/hypage.cgi?HYPAGE=search/detail.hpg&dtd_id=22&g=&sysid=00001113&sflag=1 page 246
 
 */
 //65years
 import delimited "empty_csv - 1976.csv", encoding("utf-8") clear
 gen year=65
-rename fishingm fishing_total
+rename fishinghuntingandtrappingm fishinghuntingandtrapping_total
 rename aquaculturem aquaculture_total
 rename coalminging_M minging_M
 rename coalminging_F minging_F
 gen coalminingm=minging_M*(42526/66077)
 gen coalminingf=minging_F*(42526/66077)
-drop fishingf
+drop fishinghuntingandtrappingf
 drop aquaculturef
 drop animalproduct*
 
 replace huntingm=0 if missing(huntingm)
 replace huntingf=0 if missing(huntingf)
-gen fishingm=round(fishing_total*((77637+41768+101821)/(147983+79223+191501))) //total male employee in fishing distributed by total "employee(male+female)" of city
-gen fishingf=round(fishing_total*((70346+37455+89680)/(147983+79223+191501)))
+gen fishinghuntingandtrappingm=round(fishinghuntingandtrapping_total*((77637+41768+101821)/(147983+79223+191501))) //total male employee in fishinghuntingandtrapping distributed by total "employee(male+female)" of city
+gen fishinghuntingandtrappingf=round(fishinghuntingandtrapping_total*((70346+37455+89680)/(147983+79223+191501)))
 gen aquaculturem=round(aquaculture_total*(23933+988+618)/(37196+1337+669)) // total male employee in aquaculture distributed by total "employee (male+female)" of city
 gen aquaculturef=round(aquaculture_total*(13263+349+51)/(37196+1337+669))
 
 
-replace forestorym=0 if missing(forestorym)
-replace forestoryf=0 if missing(forestoryf)
+replace loggingm=0 if missing(loggingm)
+replace loggingf=0 if missing(loggingf)
 replace othertransportationm=0 if missing(othertransportationm)
 replace othertransportationf=0 if missing(othertransportationf)
 
