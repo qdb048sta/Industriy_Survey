@@ -1,7 +1,7 @@
 //Risky Jobs Census
 //43 years
 cd "D:\User_Data\Desktop\kan-2\industrial_census\"
-import delimited "empty_csv - 1954.csv", encoding("utf-8") clear
+/*import delimited "empty_csv - 1954.csv", encoding("utf-8") clear
 drop if 縣市=="台北市區" | 縣市=="陽明山管理局"
 rename 縣市 county
 gen year=43
@@ -21,25 +21,25 @@ rename v41 wholesalersnondurablegoods_f
 rename buildingmaterialandgardenequipme buildingmaterialdealers_m
 rename v45 buildingmaterialsdealer_f
 rename transitandgroundpassengertranspo groundpassenger_m
-rename v67 groundpassenger_f
+rename v63 groundpassenger_f
 rename servicesincidentaltotransportati transportationservice_m
-rename v69 transportationservice_f
+rename v65 transportationservice_f
 rename publishingindustriesexceptintern publishing_m
-rename v75 publishing_f
+rename v71 publishing_f
 rename professionalscientificandtechnic professional_m
-rename v85 professional_f
+rename v81 professional_f
 rename managementadministrativeandwaste managementadmin_m
-rename v87 management_admin_f
+rename v83 management_admin_f
 rename artsentertainmentandrecreation_m entertainment_m_1
 rename artsentertainmentandrecreation_f entertainment_f_1
-rename v94 entertainment_m_2
-rename v95 entertainment_f_2
-rename v96 entertainment_m_3
-rename v97 entertainment_m_3 
+rename v90 entertainment_m_2
+rename v91 entertainment_f_2
+rename v92 entertainment_m_3
+rename v93 entertainment_f_3  
 rename automotiverepairandmaintenanceex automotiverepair_m
-rename v101 automotiverepair_f
+rename v97 automotiverepair_f
 rename religiousgrantmakingcivicprofess religious_m
-rename v105 religious_f
+rename v101 religious_f
 
 
 
@@ -49,16 +49,22 @@ gen coalmining_m=round((minging_company/428)*31276) //31276 is the total amount 
 gen coalmining_f=round((minging_company/428)*4841) //4841 is the total amount of male minging workers
 replace animalproduction_m=0 if missing(animalproduction_m)
 replace animalproduction_f=0 if missing(animalproduction_f)
+replace foodandbeveragestores_m=foodandbeveragestores_m+foodandbeveragestores_m_1
+replace foodandbeveragestores_f=foodandbeveragestores_f+foodandbeveragestores_f_1
+gen entertainment_m=entertainment_m_1+entertainment_m_2+entertainment_m_3
+gen entertainment_f=entertainment_f_1+entertainment_f_2+entertainment_f_3
+gen financeandinsurance_m=financeandinsurance_m_1+financeandinsurance_m_2+financeandinsurance_m_3
+gen financeandinsurance_f=financeandinsurance_f_1+financeandinsurance_f_2+financeandinsurance_f_3
 
-drop animalproduct* oilandgasextraction* supportactivitiesformining* 
-drop supportactivitiesforagriculturea v11 // v11 is supoort activities for cropproduction
+
+drop animalproduct* oilandgasextraction* supportactivitiesformining* foodandbeveragestores_m_1 foodandbeveragestores_f_1 entertainment_m_1 entertainment_m_2 entertainment_m_3 entertainment_f_1 entertainment_f_2 entertainment_f_3
+drop supportactivitiesforagriculturea v11*/ // v11 is supoort activities for cropproduction
 //gen total_employee_m= cropproduction_m+fishinghuntingandtrapping_m+logging_m+coalminging_m+construction_m+cartransportationm+boattransportationm+transportationservicem+warehousingm+total_manufacturingm+utilitiesm+gasm+waterm+merchantm+otherm
 //gen total_employee_f= croproduction_f+fishinghuntingandtrapping_f+logging_f+constructionf+cartransportation_f+boattransportationf+transportationservicef+warehousingf+total_manufacturingf+utilitiesf+gasm+waterf+merchantf+otherf
-foreach v of varlist county-coalmining_f{
+/*foreach v of varlist county-construction_m{
 	replace `v'=0 if missing(`v')
-}
-save full_jobs_43y,replace
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+}*/
+//save full_jobs_43y,replace
 /*reference:
 cropproduction: REPORT OF THE 1956 SAMPLE SAMPLE CENSUS OF cropproduction
 Note: fishinghuntingandtrapping Forestry Transportation are derived from Industrial Censusm, but the report already declared that the numbers could be inaccurate
@@ -107,52 +113,77 @@ Hunting: no 50y data
 
 //55years
 import delimited "empty_csv - 1966.csv", encoding("utf-8") clear
-drop if 縣市=="台北市區" | 縣市=="陽明山管理局"
+rename v1 county
+drop if county=="台北市區" | county=="陽明山管理局"
 gen year=55
-rename cartransportationm car_amount
-rename cartransportationf car_capacity
-rename boattransportationm boat_amount
-rename boattransportationf boat_capacity
-rename warehousingm warehouse_amount
-rename warehousingf warehouse_capacity
-rename coalmining_M totalmining_M
-rename coalmining_F totalmining_F
-gen coalmining_M= totalmining_M*(66819/84814)
-gen coalminging_F= totalmining_F*(66819/84814)
-drop animalproduct*
-rename frabricatedmetalm frabricatedmetalt
-gen frabricatedmetalm=frabricatedmetalt*(19920/23814)
-gen frabricatedmetalf=frabricatedmetalt*(3894/23814)
+rename plasticsandrubberproductsmanufac plasticsandrubbermanufacturing_m
+rename v27 plasticsandrubbermanufacturing_f
+rename nonmetallicmineralproductmanufac nonmetallicmineralm
+rename v29 nonmetallicmineralf
+rename fabricatedmetalproductmanufactur fabricatedmetal_m
+rename v33 fabricatedmetal_f
+rename transportationequipmentmanufactu transportationmanufacturing_m
+rename v37 transportationmanufacturing_f
+rename merchantwholesalersdurablegoods_ wholesalersdurablegoods_m
+rename v41 wholesalersdurablegoods_f
+rename merchantwholesalersnondurablegoo wholesalersnondurablegoods_m
+rename v43 wholesalersnondurablegoods_f
+rename buildingmaterialandgardenequipme buildingmaterialdealers_m
+rename v47 buildingmaterialsdealer_f
+rename transitandgroundpassengertranspo groundpassenger_m
+rename v63 groundpassenger_f
+rename servicesincidentaltotransportati transportationservice_m
+rename v65 transportationservice_f
+rename publishingindustriesexceptintern publishing_m
+rename v71 publishing_f
+rename professionalscientificandtechnic professional_m
+rename v77 professional_f
+rename managementadministrativeandwaste managementadmin_m
+rename v79 management_admin_f
+rename artsentertainmentandrecreation_m entertainment_m
+rename artsentertainmentandrecreation_f entertainment_f
 
+rename automotiverepairandmaintenanceex automotiverepair_m
+rename v89 automotiverepair_f
+rename religiousgrantmakingcivicprofess religious_m
+rename v93 religious_f
 
 //
 //manufacturing
-rename foodmanufacturingm foodmanufacturingt
-drop foodmanufacturingf
-gen foodmanufacturingm=foodmanufacturingt*(72656/118535)
-gen foodmanufacturingf=foodmanufacutringt*(45879/118535)
-rename chemicalmanufacturingm chemicalmanufacturingt
-gen chemicalmanufacturingm=chemicalmanufacturingt*(39873/58805)
-gen chemicalmanufacturingf=chemicalmanufacturingt*(18932/58805)
-rename plasticandrubberm plasticandrubbert
-drop plasticandrubberf
-gen plasticandrubbberm=plasticandrubber*(5401/9908)
-gen plasticandrubberf=plasticandrubber*(4507/9908)
-rename nonmetalicmineralm nonmetalicminearalt
-gen nonmetalicminearlm=nonmetalicminearlt*(33327/45211)
-gen nonmetalicminearlf=nonmetalicminearlt*(11884/45211)
-rename primarymetalm primarymetalt
-gen primarymetalm=primarymetalt*(14751/15821)
-gen primarymetalf=primarymetalt*(1073/15821)
-rename machinearymanufacturing_M machinearymanufacturingt
-gen machinenarymanufacturingm=machinearymanufacturingt*(30710/32343)
-gen machinearymanufacturingf=machinearymanufacturingt*(1633/32343)
-rename transportationequipmentmanufacturing_M transportationequipmentt
-gen transportationequipmentm=transportationequipmentt*(29069/30681)
-gen transportationequipmentf=transportationequipmentt*(1792/30681)
-rename woorproductmanufacturing_M woodproductiont
-gen woodproductionm=woodproductiont*(23996/32725)
-gen woodproductionf=woodproductiont*(8729/32725)
+rename foodmanufacturing_m foodmanufacturingt
+drop foodmanufacturing_f
+gen foodmanufacturing_m=foodmanufacturingt*(72656/118535)
+gen foodmanufacturing_f=foodmanufacturingt*(45879/118535)
+rename chemicalmanufacturing_m chemicalmanufacturingt
+drop chemicalmanufacturing_f
+gen chemicalmanufacturing_m=chemicalmanufacturingt*(39873/58805)
+gen chemicalmanufacturing_f=chemicalmanufacturingt*(18932/58805)
+rename plasticsandrubbermanufacturing_m plasticandrubbert
+drop plasticsandrubbermanufacturing_f
+gen plasticandrubbber_m=plasticandrubber*(5401/9908)
+gen plasticandrubber_f=plasticandrubber*(4507/9908)
+rename nonmetallicmineralm nonmetalicminearalt
+drop nonmetallicmineralf
+gen nonmetalicminearl_m=nonmetalicminearalt*(33327/45211)
+gen nonmetalicminearl_f=nonmetalicminearalt*(11884/45211)
+rename primarymetalmanufacturing_m primarymetalt
+drop primarymetalmanufacturing_f
+gen primarymetal_m=primarymetalt*(14751/15821)
+gen primarymetal_f=primarymetalt*(1073/15821)
+rename machinerymanufacturing_m machinearymanufacturingt
+drop machinerymanufacturing_f
+gen machinenarymanufacturing_m=machinearymanufacturingt*(30710/32343)
+gen machinearymanufacturing_f=machinearymanufacturingt*(1633/32343)
+
+rename transportationmanufacturing_m transportationequipmentt
+drop transportationmanufacturing_f
+gen transportationequipment_m=transportationequipmentt*(29069/30681)
+gen transportationequipment_f=transportationequipmentt*(1792/30681)
+
+rename woodproductmanufacturing_m woodproductiont
+drop woodproductmanufacturing_f
+gen woodproduction_m=woodproductiont*(23996/32725)
+gen woodproduction_f=woodproductiont*(8729/32725)
 
 
 
@@ -160,13 +191,14 @@ gen woodproductionf=woodproductiont*(8729/32725)
 
 //rename totalindustcensusm totalindust_employee
 //drop totalindustcensusf
-
-replace cropproductionm=cropproductionm*20 // 5% sample x20times 
-replace cropproductionf=cropproductionf*20
+replace cropproduction_m=cropproduction_m*20 // 5% sample x20times 
+replace cropproduction_f=cropproduction_f*20
 replace huntingm=0 if missing(huntingm)
 replace huntingf=0 if missing(huntingf)
-replace mingingm=0 if missing(mingingm)
-replace mingingf=0 if missing(mingingf)
+replace coalmining_m=0 if missing(mingingm)
+replace coalmining_f=0 if missing(mingingf)
+replace coalmining_m=coalmining_m*(66819/84814)
+replace coalmining_f=coalmining_f*(66819/84814)
 replace loggingm=0 if missing(loggingm)
 replace loggingf=0 if missing(loggingf)
 replace railtransportationm=0 if missing(railtransportationm)
