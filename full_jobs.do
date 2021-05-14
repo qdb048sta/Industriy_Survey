@@ -9,8 +9,8 @@ rename plasticsandrubberproductsmanufac plasticsandrubbermanufacturing_m
 rename v25 plasticsandrubbermanufacturing_f
 rename nonmetallicmineralproductmanufac nonmetallicmineralm
 rename v27 nonmetallicmineralf
-rename fabricatedmetalproductmanufactur fabricatedmetalmanufacturingm
-rename v31 fabricatedmetalmanufacturingf
+rename fabricatedmetalproductmanufactur fabricatedmetalm
+rename v31 fabricatedmetalf
 rename transportationequipmentmanufactu transportationmanufacturingm
 rename v35 transportationmanufacturingf
 rename merchantwholesalersdurablegoods_ wholesalersdurablegoodsm
@@ -105,6 +105,10 @@ rename coalmining_F totalmining_F
 gen coalmining_M= totalmining_M*(66819/84814)
 gen coalminging_F= totalmining_F*(66819/84814)
 drop animalproduct*
+rename frabricatedmetalm frabricatedmetalt
+gen frabricatedmetalm=frabricatedmetalt*(19920/23814)
+gen frabricatedmetalf=frabricatedmetalt*(3894/23814)
+
 
 //
 //manufacturing
@@ -120,7 +124,23 @@ drop plasticandrubberf
 gen plasticandrubbberm=plasticandrubber*(5401/9908)
 gen plasticandrubberf=plasticandrubber*(4507/9908)
 rename nonmetalicmineralm nonmetalicminearalt
-gen 
+gen nonmetalicminearlm=nonmetalicminearlt*(33327/45211)
+gen nonmetalicminearlf=nonmetalicminearlt*(11884/45211)
+rename primarymetalm primarymetalt
+gen primarymetalm=primarymetalt*(14751/15821)
+gen primarymetalf=primarymetalt*(1073/15821)
+rename machinearymanufacturing_M machinearymanufacturingt
+gen machinenarymanufacturingm=machinearymanufacturingt*(30710/32343)
+gen machinearymanufacturingf=machinearymanufacturingt*(1633/32343)
+rename transportationequipmentmanufacturing_M transportationequipmentt
+gen transportationequipmentm=transportationequipmentt*(29069/30681)
+gen transportationequipmentf=transportationequipmentt*(1792/30681)
+rename woorproductmanufacturing_M woodproductiont
+gen woodproductionm=woodproductiont*(23996/32725)
+gen woodproductionf=woodproductiont*(8729/32725)
+
+
+
 //
 
 //rename totalindustcensusm totalindust_employee
@@ -180,6 +200,10 @@ import delimited "risky_jobs - 65y.csv", encoding("utf-8") clear
 gen year=65
 rename fishingm fishing_total
 rename aquaculturem aquaculture_total
+rename coalminging_M minging_M
+rename coalminging_F minging_F
+gen coalminingm=minging_M*(42526/66077)
+gen coalminingf=minging_F*(42526/66077)
 drop fishingf
 drop aquaculturef
 drop animalproduct*
@@ -199,12 +223,15 @@ replace othertransportationf=0 if missing(othertransportationf)
 
 
 
-save risky_jobs_65y,replace
-use risky_jobs_43y,clear
-append using risky_jobs_55y
-append using risky_jobs_65y
+
+
+
+save full_jobs_65y,replace
+use full_jobs_43y,clear
+append using full_jobs_55y
+append using full_jobs_65y
 keep 縣市 year *m *f
-save risky_jobs_append,replace
+save full_jobs_append,replace
 
 
 
