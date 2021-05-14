@@ -1,7 +1,7 @@
 //Risky Jobs Census
 //43 years
 cd "D:\User_Data\Desktop\kan-2\industrial_census\"
-import delimited "risky_jobs - 43y.csv", encoding("utf-8") clear
+import delimited "empty_csv - 1954.csv", encoding("utf-8") clear
 drop if 縣市=="台北市區" | 縣市=="陽明山管理局"
 gen year=43
 rename mingingm minging_company
@@ -91,7 +91,7 @@ Hunting: no 50y data
 */
 
 //55years
-import delimited "risky_jobs - 55y.csv", encoding("utf-8") clear
+import delimited "empty_csv - 1966.csv", encoding("utf-8") clear
 drop if 縣市=="台北市區" | 縣市=="陽明山管理局"
 gen year=55
 rename cartransportationm car_amount
@@ -196,7 +196,7 @@ Fishing resource:  國家圖書館 https://twinfo.ncl.edu.tw/sgp/hypage.cgi?HYPA
 
 */
 //65years
-import delimited "risky_jobs - 65y.csv", encoding("utf-8") clear
+import delimited "empty_csv - 1976.csv", encoding("utf-8") clear
 gen year=65
 rename fishingm fishing_total
 rename aquaculturem aquaculture_total
