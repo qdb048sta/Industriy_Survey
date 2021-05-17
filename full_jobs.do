@@ -193,10 +193,10 @@ gen woodproduction_f=woodproductiont*(8729/32725)
 //drop totalindustcensusf
 replace cropproduction_m=cropproduction_m*20 // 5% sample x20times 
 replace cropproduction_f=cropproduction_f*20
-replace huntingm=0 if missing(huntingm)
-replace huntingf=0 if missing(huntingf)
-replace coalmining_m=0 if missing(mingingm)
-replace coalmining_f=0 if missing(mingingf)
+replace animalproduction_m=0 if missing(animalproduction_m)
+replace animalproduction_f=0 if missing(animalproduction_f)
+replace coalmining_m=0 if missing(coalmining_m)
+replace coalmining_f=0 if missing(coalmining_f)
 replace coalmining_m=coalmining_m*(66819/84814)
 replace coalmining_f=coalmining_f*(66819/84814)
 replace loggingm=0 if missing(loggingm)
