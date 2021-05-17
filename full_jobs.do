@@ -1,7 +1,7 @@
-//Risky Jobs Census
+
 //43 years
 cd "D:\User_Data\Desktop\kan-2\industrial_census\"
-/*import delimited "empty_csv - 1954.csv", encoding("utf-8") clear
+import delimited "empty_csv - 1954.csv", encoding("utf-8") clear
 drop if 縣市=="台北市區" | 縣市=="陽明山管理局"
 rename 縣市 county
 gen year=43
@@ -58,13 +58,14 @@ gen financeandinsurance_f=financeandinsurance_f_1+financeandinsurance_f_2+financ
 
 
 drop animalproduct* oilandgasextraction* supportactivitiesformining* foodandbeveragestores_m_1 foodandbeveragestores_f_1 entertainment_m_1 entertainment_m_2 entertainment_m_3 entertainment_f_1 entertainment_f_2 entertainment_f_3
-drop supportactivitiesforagriculturea v11*/ // v11 is supoort activities for cropproduction
+drop supportactivitiesforagriculturea v11* // v11 is supoort activities for cropproduction
 //gen total_employee_m= cropproduction_m+fishinghuntingandtrapping_m+logging_m+coalminging_m+construction_m+cartransportationm+boattransportationm+transportationservicem+warehousingm+total_manufacturingm+utilitiesm+gasm+waterm+merchantm+otherm
 //gen total_employee_f= croproduction_f+fishinghuntingandtrapping_f+logging_f+constructionf+cartransportation_f+boattransportationf+transportationservicef+warehousingf+total_manufacturingf+utilitiesf+gasm+waterf+merchantf+otherf
 /*foreach v of varlist county-construction_m{
 	replace `v'=0 if missing(`v')
 }*/
-//save full_jobs_43y,replace
+save full_jobs_43y,replace
+
 /*reference:
 cropproduction: REPORT OF THE 1956 SAMPLE SAMPLE CENSUS OF cropproduction
 Note: fishinghuntingandtrapping Forestry Transportation are derived from Industrial Censusm, but the report already declared that the numbers could be inaccurate
@@ -199,34 +200,40 @@ replace coalmining_m=0 if missing(coalmining_m)
 replace coalmining_f=0 if missing(coalmining_f)
 replace coalmining_m=coalmining_m*(66819/84814)
 replace coalmining_f=coalmining_f*(66819/84814)
-replace loggingm=0 if missing(loggingm)
-replace loggingf=0 if missing(loggingf)
-replace railtransportationm=0 if missing(railtransportationm)
-replace railtransportationf=0 if missing(railtransportationf)
-replace car_amount=0 if missing(car_amount)
-replace car_capacity=0 if missing(car_capacity)
-replace boat_amount=0 if missing(boat_amount)
+replace logging_m=0 if missing(logging_m)
+replace logging_f=0 if missing(logging_f)
+replace railtransportation_m=0 if missing(railtransportation_m)
+replace railtransportation_f=0 if missing(railtransportation_f)
+rename trucktransportation_m truck_capacity
+replace truck_capacity=0 if missing(truck_capacity)
+drop trucktransportation_f
+gen trucktransportationm=round((truck_capacity/218854)*(11813+26844)) //total male employee in car transportation distributed by car capacity of city
+gen trucktransportationf=round((truck_capacity/218854)*(8510+936)) //total female employee in car transportation distributed by car capacity of city
+//replace car_amount=0 if missing(car_amount)
+rename watertransportation_m boat_capacity
+drop watertransportation_f
 replace boat_capacity=0 if missing(boat_capacity)
-replace transportationservicem=0 if missing(transportationservicem)
-replace transportationservicef=0 if missing(transportationservicef)
-replace othertransportationm=0 if missing(othertransportationm)
-replace othertransportationf=0 if missing(othertransportationf)
-replace warehouse_amount=0 if missing(warehouse_amount)
+gen watertransportation_m=round((boat_capacity/1365634)*(7239)) //total male employee in boat transportation distributed by car capacity of city
+gen watertransportation_f=round((boat_capacity/1365634)*(243)) //total male employee in boat transportation distributed by car capacity of city
+replace transportationservice_m=0 if missing(transportationservice_m)
+replace transportationservice_f=0 if missing(transportationservice_f)
+//replace othertransportationm=0 if missing(othertransportationm)
+//replace othertransportationf=0 if missing(othertransportationf)
+rename warehousingandstorage_m warehouse_capacity
+//replace warehouse_amount=0 if missing(warehouse_amount)
 replace warehouse_capacity=0 if missing(warehouse_capacity)
+drop warehousingandstorage_f
 
+replace airtransportation_m=0 if missing(airtransportation_m)
+replace airtransportation_f=0 if missing(airtransportation_f)
 
-replace airtransportationm=0 if missing(airtransportationm)
-replace airtransportationf=0 if missing(airtransportationf)
-
-gen cartransportationm=round((car_capacity/218854)*(11813+26844)) //total male employee in car transportation distributed by car capacity of city
+/*gen cartransportationm=round((car_capacity/218854)*(11813+26844)) //total male employee in car transportation distributed by car capacity of city
 gen cartransportationf=round((car_capacity/218854)*(8510+936)) //total female employee in car transportation distributed by car capacity of city
 gen boattransportationm=round((boat_capacity/1365634)*(7239)) //total male employee in boat transportation distributed by car capacity of city
-gen boattransportationf=round((boat_capacity/1365634)*(243)) //total male employee in boat transportation distributed by car capacity of city
-gen warehousingm=round((warehouse_amount/1119179)*(1292))
-gen warehousingf=round((warehouse_amount/1119179)*(168)) // total female employee in warehouse distributed by warehouse space of city
+gen boattransportationf=round((boat_capacity/1365634)*(243)) */ //total male employee in boat transportation distributed by car capacity of city
+gen warehousing_m=round((warehouse_capacity/1119179)*(1292))
+gen warehousing_f=round((warehouse_capacity/1119179)*(168)) // total female employee in warehouse distributed by warehouse space of city
 
-gen total_employee_m= cropproductionm+fishinghuntingandtrappingm+loggingm+huntingm+mingingm+constructionm+cartransportationm+boattransportationm+transportationservicem+warehousingm+total_manufacturingm+utilitiesm+merchantm+otherm
-gen total_employee_f= cropproductionf+fishinghuntingandtrappingf+loggingf+huntingf+mingingf+constructionf+cartransportationf+boattransportationf+transportationservicef+warehousingf+total_manufacturingf+utilitiesf+merchantf+otherf
 
 save full_jobs_55y,replace
 /*
@@ -242,31 +249,31 @@ cropproduction: REPORT ON THE 1966 CENSUS OF cropproduction TAIWAN, REPUBLIC OF 
 fishinghuntingandtrapping resource:  國家圖書館 https://twinfo.ncl.edu.tw/sgp/hypage.cgi?HYPAGE=search/detail.hpg&dtd_id=22&g=&sysid=00001113&sflag=1 page 246
 
 */
+
 //65years
 import delimited "empty_csv - 1976.csv", encoding("utf-8") clear
 gen year=65
-rename fishinghuntingandtrappingm fishinghuntingandtrapping_total
-rename aquaculturem aquaculture_total
-rename coalminging_M minging_M
-rename coalminging_F minging_F
-gen coalminingm=minging_M*(42526/66077)
-gen coalminingf=minging_F*(42526/66077)
-drop fishinghuntingandtrappingf
-drop aquaculturef
+rename fishinghuntingandtrapping_m fishinghuntingandtrapping_total
+rename aquaculture_m aquaculture_total
+rename coalmining_m mining_m
+rename coalmining_f mining_f
+gen coalmining_m=mining_m*(42526/66077)
+gen coalmining_f=mining_f*(42526/66077)
+drop fishinghuntingandtrapping_f
+drop aquaculture_f
 drop animalproduct*
 
-replace huntingm=0 if missing(huntingm)
-replace huntingf=0 if missing(huntingf)
-gen fishinghuntingandtrappingm=round(fishinghuntingandtrapping_total*((77637+41768+101821)/(147983+79223+191501))) //total male employee in fishinghuntingandtrapping distributed by total "employee(male+female)" of city
-gen fishinghuntingandtrappingf=round(fishinghuntingandtrapping_total*((70346+37455+89680)/(147983+79223+191501)))
-gen aquaculturem=round(aquaculture_total*(23933+988+618)/(37196+1337+669)) // total male employee in aquaculture distributed by total "employee (male+female)" of city
-gen aquaculturef=round(aquaculture_total*(13263+349+51)/(37196+1337+669))
+
+gen fishinghuntingandtrapping_m=round(fishinghuntingandtrapping_total*((77637+41768+101821)/(147983+79223+191501))) //total male employee in fishinghuntingandtrapping distributed by total "employee(male+female)" of city
+gen fishinghuntingandtrapping_f=round(fishinghuntingandtrapping_total*((70346+37455+89680)/(147983+79223+191501)))
+gen aquaculture_m=round(aquaculture_total*(23933+988+618)/(37196+1337+669)) // total male employee in aquaculture distributed by total "employee (male+female)" of city
+gen aquaculture_f=round(aquaculture_total*(13263+349+51)/(37196+1337+669))
 
 
-replace loggingm=0 if missing(loggingm)
-replace loggingf=0 if missing(loggingf)
-replace othertransportationm=0 if missing(othertransportationm)
-replace othertransportationf=0 if missing(othertransportationf)
+replace logging_m=0 if missing(logging_m)
+replace logging_f=0 if missing(logging_f)
+//replace othertransportationm=0 if missing(othertransportationm)
+//replace othertransportationf=0 if missing(othertransportationf)
 
 
 
@@ -274,11 +281,11 @@ replace othertransportationf=0 if missing(othertransportationf)
 
 
 save full_jobs_65y,replace
-use full_jobs_43y,clear
+/*use full_jobs_43y,clear
 append using full_jobs_55y
 append using full_jobs_65y
-keep 縣市 year *m *f
-save full_jobs_append,replace
+keep county year *m *f
+save full_jobs_append,replace*/
 
 
 
