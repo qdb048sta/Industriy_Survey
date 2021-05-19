@@ -131,6 +131,9 @@ replace forestoryf=0 if missing(forestoryf)
 replace othertransportationm=0 if missing(othertransportationm)
 replace othertransportationf=0 if missing(othertransportationf)
 
+replace total_employee_m=total_employee_m+agriculturem+fishingm+forestorym+huntingm+mingingm
+replace total_employee_f=total_employee_f+agriculturef+fishingf+forestoryf+huntingf+mingingf
+
 
 
 save risky_jobs_65y,replace

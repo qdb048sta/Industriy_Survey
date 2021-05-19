@@ -65,8 +65,16 @@ replace utilities_f=utilities_f+gas_f+water_f
 
 drop animalproduct* oilandgasextraction* supportactivitiesformining* foodandbeveragestores_m_1 foodandbeveragestores_f_1 entertainment_m_1 entertainment_m_2 entertainment_m_3 entertainment_f_1 entertainment_f_2 entertainment_f_3
 drop supportactivitiesforagriculturea v11* // v11 is supoort activities for cropproduction
-//gen total_employee_m= cropproduction_m+fishinghuntingandtrapping_m+logging_m+coalminging_m+construction_m+cartransportationm+boattransportationm+transportationservicem+warehousingm+total_manufacturingm+utilitiesm+gasm+waterm+merchantm+otherm
-//gen total_employee_f= croproduction_f+fishinghuntingandtrapping_f+logging_f+constructionf+cartransportation_f+boattransportationf+transportationservicef+warehousingf+total_manufacturingf+utilitiesf+gasm+waterf+merchantf+otherf
+//total workers
+gen total_mining_m=round((minging_company/428)*46065)
+
+gen total_mining_f=round((minging_company/428)*9351)
+
+gen total_employee_m=cropproduction_m+fishinghuntingandtrapping_m+logging_m+total_mining_m+construction_m+trucktransportation_m+watertransportation_m+transportationservice_m+warehousingandstorage_m+total_manufacturing_m+utilities_m+gas_m+water_m+merchant_m+other_m
+
+gen total_employee_f=cropproduction_f+fishinghuntingandtrapping_f+logging_f+total_mining_f+construction_f+trucktransportation_f+watertransportation_f+transportationservice_f+warehousingandstorage_f+total_manufacturing_f+utilities_f+gas_f+water_f+merchant_f+other_f
+drop total_mining_m total_manufacturing_m merchant_m other_m
+drop total_mining_f total_manufacturing_f merchant_f other_f
 /*foreach v of varlist county-construction_m{
 	replace `v'=0 if missing(`v')
 }*/
@@ -243,7 +251,14 @@ gen boattransportationm=round((boat_capacity/1365634)*(7239)) //total male emplo
 gen boattransportationf=round((boat_capacity/1365634)*(243)) */ //total male employee in boat transportation distributed by car capacity of city
 gen warehousingandstorage_m=round((warehouse_capacity/1119179)*(1292))
 gen warehousingandstorage_f=round((warehouse_capacity/1119179)*(168)) // total female employee in warehouse distributed by warehouse space of city
+replace total_mining_m=0 if missing(total_mining_m)
+replace total_mining_f=0 if missing(total_mining_f)
 
+gen total_employee_m=cropproduction_m+fishinghuntingandtrapping_m+aquaculture_m+logging_m + total_mining_m +construction_m+trucktransportation_m+watertransportation_m+transportationservice_m+warehousingandstorage_m+total_manufacturing_m+utilities_m+merchant_m+other_m
+
+gen total_employee_f=cropproduction_f+fishinghuntingandtrapping_f+aquaculture_f+logging_f + total_mining_f +construction_f+trucktransportation_f+watertransportation_f+transportationservice_f+warehousingandstorage_f+total_manufacturing_f+utilities_f+merchant_f+other_f
+drop total_mining_m total_manufacturing_m merchant_m other_m
+drop total_mining_f total_manufacturing_f merchant_f other_f
 
 save full_jobs_55y,replace
 /*
@@ -299,8 +314,8 @@ rename professionalscientificandtechnic professional_m
 rename v77 professional_f
 rename managementadministrativeandwaste managementadmin_m
 rename v79 management_admin_f
-rename artsentertainmentandrecreation_m entertainment_m_1
-rename artsentertainmentandrecreation_f entertainment_f_1
+rename artsentertainmentandrecreation_m entertainment_m
+rename artsentertainmentandrecreation_f entertainment_f
 /*rename v90 entertainment_m_2
 rename v91 entertainment_f_2
 rename v92 entertainment_m_3
@@ -323,12 +338,15 @@ gen aquaculture_m=round(aquaculture_total*(23933+988+618)/(37196+1337+669)) // t
 gen aquaculture_f=round(aquaculture_total*(13263+349+51)/(37196+1337+669))
 
 
+
 replace logging_m=0 if missing(logging_m)
 replace logging_f=0 if missing(logging_f)
 //replace othertransportationm=0 if missing(othertransportationm)
 //replace othertransportationf=0 if missing(othertransportationf)
 
+replace total_employee_m=cropproduction_m+fishinghuntingandtrapping_m+aquaculture_m+logging_m+total_employee_m
 
+replace total_employee_f=cropproduction_f+fishinghuntingandtrapping_f+aquaculture_f+logging_f+total_employee_f
 
 
 
@@ -336,22 +354,44 @@ save full_jobs_65y,replace
 use full_jobs_43y,clear
 append using full_jobs_55y,force
 append using full_jobs_65y,force
+
 #delimit ;
 global VAR "
-cropproduction_m cropproduction_f logging_m logging_f fishinghuntingandtrapping_m fishinghuntingandtrapping_f minging_company construction_m construction_f foodmanufacturing_m foodmanufacturing_f chemicalmanufacturing_m chemicalmanufacturing_f plasticandrubber_m plasticandrubber_f nonmetallicmineral_m nonmetallicmineral_f primarymetal_m primarymetal_f fabricatedmetal_m fabricatedmetal_f machinerymanufacturing_m machinerymanufacturing_f transportationequipment_m transportationequipment_f woodproduction_m woodproduction_f wholesalersdurablegoods_m wholesalersdurablegoods_f wholesalersnondurablegoods_m wholesalersnondurablegoods_f motorvehicleandpartsdealers_m motorvehicleandpartsdealers_f buildingmaterialdealers_m buildingmaterialsdealer_f foodandbeveragestores_m foodandbeveragestores_f gasolinestations_m gasolinestations_f miscellaneousstoreretailers_m miscellaneousstoreretailers_f airtransportation_m airtransportation_f railtransportation_m railtransportation_f watertransportation_m watertransportation_f trucktransportation_m trucktransportation_f groundpassenger_m groundpassenger_f transportationservice_m transportationservice_f warehousingandstorage_m warehousingandstorage_f utilities_m utilities_f publishing_m publishing_f financeandinsurance_m_1 financeandinsurance_f_1 financeandinsurance_m_2 financeandinsurance_f_2 financeandinsurance_m_3 financeandinsurance_f_3 realestateandrentalandleasing_m realestateandrentalandleasing_f professional_m professional_f managementadmin_m management_admin_f educationalservices_m educationalservices_f healthcareandsocialassistance_m healthcareandsocialassistance_f accommodationandfoodservices_m accommodationandfoodservices_f automotiverepair_m automotiverepair_f personalandlaundryservices_m personalandlaundryservices_f religious_m religious_f gas_m gas_f water_m water_f year coalmining_m coalmining_f entertainment_m entertainment_f financeandinsurance_m financeandinsurance_f animalproduction_m animalproduction_f aquaculture_m aquaculture_f supportactivitiesforagriculturea v13 oilandgasextraction_m oilandgasextraction_f supportactivitiesformining_m supportactivitiesformining_f foodmanufacturingt chemicalmanufacturingt plasticandrubbert nonmetalicminearalt primarymetalt fabricatedmetalt machinearymanufacturingt transportationequipmentt woodproductiont boat_capacity truck_capacity warehouse_capacity total_manufacturing_m total_manufacturing_f merchant_m merchant_f other_m other_f fishinghuntingandtrapping_total aquaculture_total mining_m mining_f entertainment_m_1 entertainment_f_1
+cropproduction_m cropproduction_f logging_m logging_f fishinghuntingandtrapping_m fishinghuntingandtrapping_f minging_company construction_m construction_f foodmanufacturing_m foodmanufacturing_f chemicalmanufacturing_m chemicalmanufacturing_f plasticandrubber_m plasticandrubber_f nonmetallicmineral_m nonmetallicmineral_f primarymetal_m primarymetal_f fabricatedmetal_m fabricatedmetal_f machinerymanufacturing_m machinerymanufacturing_f transportationequipment_m transportationequipment_f woodproduction_m woodproduction_f wholesalersdurablegoods_m wholesalersdurablegoods_f wholesalersnondurablegoods_m wholesalersnondurablegoods_f motorvehicleandpartsdealers_m motorvehicleandpartsdealers_f buildingmaterialdealers_m buildingmaterialsdealer_f foodandbeveragestores_m foodandbeveragestores_f gasolinestations_m gasolinestations_f miscellaneousstoreretailers_m miscellaneousstoreretailers_f airtransportation_m airtransportation_f railtransportation_m railtransportation_f watertransportation_m watertransportation_f trucktransportation_m trucktransportation_f groundpassenger_m groundpassenger_f transportationservice_m transportationservice_f warehousingandstorage_m warehousingandstorage_f utilities_m utilities_f publishing_m publishing_f financeandinsurance_m_1 financeandinsurance_f_1 financeandinsurance_m_2 financeandinsurance_f_2 financeandinsurance_m_3 financeandinsurance_f_3 realestateandrentalandleasing_m realestateandrentalandleasing_f professional_m professional_f managementadmin_m management_admin_f educationalservices_m educationalservices_f healthcareandsocialassistance_m healthcareandsocialassistance_f accommodationandfoodservices_m accommodationandfoodservices_f automotiverepair_m automotiverepair_f personalandlaundryservices_m personalandlaundryservices_f religious_m religious_f gas_m gas_f water_m water_f year coalmining_m coalmining_f entertainment_m entertainment_f financeandinsurance_m financeandinsurance_f animalproduction_m animalproduction_f aquaculture_m aquaculture_f supportactivitiesforagriculturea v13 oilandgasextraction_m oilandgasextraction_f supportactivitiesformining_m supportactivitiesformining_f foodmanufacturingt chemicalmanufacturingt plasticandrubbert nonmetalicminearalt primarymetalt fabricatedmetalt machinearymanufacturingt transportationequipmentt woodproductiont boat_capacity truck_capacity warehouse_capacity fishinghuntingandtrapping_total aquaculture_total mining_m mining_f total_employee_m total_employee_f
 ";
 #delimit cr
 
 foreach v of global VAR{
 	replace `v'=0 if missing(`v')
 }
-gen total_employee_m=0
-foreach v of global VAR{
-	replace total_employee_m=total_employee_m+`v'
-	
+
+keep county year *m *f total_employee*
+
+gen total_business_m=wholesalersdurablegoods_m + wholesalersnondurablegoods_m + motorvehicleandpartsdealers_m  + buildingmaterialdealers_m  + foodandbeveragestores_m  + gasolinestations_m + miscellaneousstoreretailers_m
+gen total_business_f= wholesalersdurablegoods_f + wholesalersnondurablegoods_f+  motorvehicleandpartsdealers_f + buildingmaterialsdealer_f + foodandbeveragestores_f + gasolinestations_f  + miscellaneousstoreretailers_f
+
+#delimit ;
+global business_drop "
+wholesalersdurablegoods_m wholesalersdurablegoods_f wholesalersnondurablegoods_m wholesalersnondurablegoods_f motorvehicleandpartsdealers_m motorvehicleandpartsdealers_f buildingmaterialdealers_m buildingmaterialsdealer_f foodandbeveragestores_m foodandbeveragestores_f gasolinestations_m gasolinestations_f miscellaneousstoreretailers_m miscellaneousstoreretailers_f";
+#delimit cr
+
+foreach v of global business_drop{
+	drop `v'
 }
-keep county year *m *f 
-drop gas_* water_* supportactivitiesformining_* merchant_* other_* mining_* total_manufacturing*
+
+gen total_service_m=publishing_m + realestateandrentalandleasing_m + professional_m + managementadmin_m + educationalservices_m + healthcareandsocialassistance_m + accommodationandfoodservices_m  + automotiverepair_m +automotiverepair_f + personalandlaundryservices_m + religious_m 
+gen total_service_f= publishing_f +  realestateandrentalandleasing_f + professional_f  + management_admin_f  + educationalservices_f +  healthcareandsocialassistance_f + accommodationandfoodservices_f + automotiverepair_m + automotiverepair_f + personalandlaundryservices_f + religious_f
+
+#delimit ;
+global service_drop "
+publishing_m publishing_f realestateandrentalandleasing_m realestateandrentalandleasing_f professional_m professional_f managementadmin_m management_admin_f educationalservices_m educationalservices_f healthcareandsocialassistance_m healthcareandsocialassistance_f accommodationandfoodservices_m accommodationandfoodservices_f automotiverepair_m automotiverepair_f personalandlaundryservices_m personalandlaundryservices_f religious_m religious_f";
+#delimit cr
+foreach v of global service_drop{
+	drop `v'
+}
+
+
+drop gas_* water_* supportactivitiesformining_*   mining_* animalproduction_* oilandgasextraction_*
 save full_jobs_append,replace
 
 
