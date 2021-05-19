@@ -90,8 +90,8 @@ gen boattransportationf=round((boat_capacity/1365634)*(243)) //total male employ
 gen warehousingm=round((warehouse_capacity/1119179)*(1292))
 gen warehousingf=round((warehouse_capacity/1119179)*(168)) // total female employee in warehouse distributed by warehouse space of city
 
-gen total_employee_m= agriculturem+fishingm+forestorym+huntingm+mingingm+constructionm+airtransportationm+cartransportationm+boattransportationm+transportationservicem+othertransportationm+warehousingm+total_manufacturingm+utilitiesm+merchantm+otherm
-gen total_employee_f= agriculturef+fishingf+forestoryf+huntingf+mingingf+constructionf+airtransportationf+cartransportationf+boattransportationf+transportationservicef+othertransportationf+warehousingf+total_manufacturingf+utilitiesf+merchantf+otherf
+gen total_employee_m= agriculturem+fishingm+forestorym+aquaculturem+huntingm+mingingm+constructionm+airtransportationm+cartransportationm+boattransportationm+transportationservicem+othertransportationm+warehousingm+total_manufacturingm+utilitiesm+merchantm+otherm
+gen total_employee_f= agriculturef+fishingf+forestoryf+aquaculturef+huntingf+mingingf+constructionf+airtransportationf+cartransportationf+boattransportationf+transportationservicef+othertransportationf+warehousingf+total_manufacturingf+utilitiesf+merchantf+otherf
 
 save risky_jobs_55y,replace
 /*
@@ -131,8 +131,8 @@ replace forestoryf=0 if missing(forestoryf)
 replace othertransportationm=0 if missing(othertransportationm)
 replace othertransportationf=0 if missing(othertransportationf)
 
-replace total_employee_m=total_employee_m+agriculturem+fishingm+forestorym+huntingm+mingingm
-replace total_employee_f=total_employee_f+agriculturef+fishingf+forestoryf+huntingf+mingingf
+replace total_employee_m=total_employee_m+agriculturem+fishingm+forestorym+huntingm+mingingm+aquaculturem
+replace total_employee_f=total_employee_f+agriculturef+fishingf+forestoryf+huntingf+mingingf+aquaculturef
 
 
 
