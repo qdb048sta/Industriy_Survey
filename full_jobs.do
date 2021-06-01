@@ -60,6 +60,7 @@ gen entertainment_m=entertainment_m_1+entertainment_m_2+entertainment_m_3
 gen entertainment_f=entertainment_f_1+entertainment_f_2+entertainment_f_3
 gen financeandinsurance_m=financeandinsurance_m_1+financeandinsurance_m_2+financeandinsurance_m_3
 gen financeandinsurance_f=financeandinsurance_f_1+financeandinsurance_f_2+financeandinsurance_f_3
+
 replace utilities_m=utilities_m+gas_m+water_m
 replace utilities_f=utilities_f+gas_f+water_f
 
